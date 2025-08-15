@@ -1,11 +1,8 @@
-import Nav from "../components/Nav"; 
-
-const infoPage = () => {
+const InfoPage = () => {
   return (
     <>
-    <Nav />
-    <div>infoPage</div>
+    <div>InfoPage</div>
     </>
   )
 }
-export default infoPage
+export default InfoPage
