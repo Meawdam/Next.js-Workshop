@@ -1,8 +1,11 @@
-const InfoPage = () => {
+import Counter from "../components/Counter"
+
+const infoPage = () => {
+  console.log("Server");
   return (
     <>
-    <div>InfoPage</div>
+      <Counter />
     </>
   )
 }
-export default InfoPage
+export default infoPage
