@@ -1,7 +1,12 @@
+import CampList from "../components/campList";
+import Form from "../components/Form";
+
 const CampPage = () => {
   return (
     <>
-    <div>CampPage</div>
+    <Form />
+    <hr />
+    <CampList />
     </>
   )
 }

@@ -1,209 +1,43 @@
-## Step 1 Install จ้า (roitai คือชื่อโฟลเดอร์)
+# Next.js Workshop
 
-```sh
-npx create-next-app@latest roitai
-```
+**Author / Instructor**: RoiTai Dev (รอยไถ พัฒนา)  
+**Based on video workshop**: Playlist by RoiTai Dev on YouTube ([youtube.com](https://www.youtube.com/watch?v=uVYwf8RUGZk&list=PLdI0UaJ3cdXeFaiEAsybLGIGCIUzbAyaV&index=9))
 
-## ถ้ามีเรื่อง
+---
 
-```sh
-npm cache clean --force
-```
+## 🧩 Tech Stack
 
-### Routing
+- **Frontend**: Next.js  
+- **Backend**: Next.js + Prisma  
+- **Styling & Utilities**: Tailwind CSS  
 
-```plaintext
-/app
-  /about
-    /page.tsx          # http://localhost:3000/about
-  /info
-    /page.tsx          # http://localhost:3000/info
-          [id]         # [id] params folder
-            /page.tsx  # http://localhost:3000/info/123456
-  /_folder             # Private Folder (no public access)
-  /(auth)              # Groups Folder
-    /login
-        /page.tsx      # http://localhost:3000/login
-    /[...sign-in]         # params
-        /page.tsx      # http://localhost:3000/sign-in
-    /register
-        /page.tsx      # http://localhost:3000/register
-```
+---
 
-## Step 2 Metadata
+## 🧑‍💻 Prerequisites
 
-```tsx
-import type { Metadata } from "next";
+- Install [Node.js](https://nodejs.org/)  
+- Install a package manager such as `npm` or `yarn`  
 
-export const metadata: Metadata = {
-  title: "Roitai",
-  description: "Camping in Thailand.",
-  keywords: "Camping, Thailand, Roitai",
-};
-```
+---
 
-### Step 3 Server Components
+## ⚙️ Installation & Running
 
-### Default เป็น Server Component
+```bash
+# Clone the repository
+git clone https://github.com/Meawdam/Next.js-Workshop
 
-- SEO ที่ดี (Search Engine Optimization)
-- ความปลอดภัย
-- Caching
+# Enter the project directory
+cd Next.js-Workshop
 
-### Client Components
+# Install dependencies
+npm install
+# or
+yarn install
 
-### ถ้าจะใช้ต้องเพิ่ม 'use client'
+# Run the development server
+npm run dev
+# or
+yarn dev
 
-- Client Components สามารถใช้ state, effects และ event listeners
-- สามารถใช้ Browser APIs เช่น geolocation หรือ localStorage
-
-## Step 4 Fetch Data
-
-```tsx
-const url = "https://jsonplaceholder.typicode.com/todos";
-```
-
-### Loading...
-
-### Error
-
-### params
-
-### Step 5 Image
-
-```tsx
-const url =
-  "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU";
-```
-
-### next.config.ts
-
-```tsx
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
-  images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "fastly.picsum.photos",
-        pathname: "/**",
-      },
-    ],
-  },
-};
-
-export default nextConfig;
-```
-
-Next.js <Image /> component
-
-- ช่วยให้การจัดการภาพในเว็บไซต์มีประสิทธิภาพมากขึ้นโดยอัตโนมัติ
-- ปรับขนาดภาพให้เหมาะสม ลดการเลื่อนเลย์เอาต์ และเพิ่มความเร็วในการโหลดหน้าเว็บ
-
-# Step 6 Server Actions
-
-```tsx
-export default const ServerComponent =()=>{
-    const myAction = async(formData) =>{
-        'use server'
-            // จัดการข้อมูลจาก form -> formData.get('name')
-            // CRUD ข้อมูล -> mutate data (server)
-            // รีเฟรชข้อมูล -> revalidate cache
-    }
-
-    return <form action={myAction}>... </form>
-}
-```
-
-```tsx
-'use client'
-import { myAction } from './action'
-export default const ClientComponent = ()=>{
-    return (
-        <form action={myAction}>
-            <button type='submit'>Add </button>
-        </form>
-    )
-}
-
-```
-
-# actions.tsx
-
-```ts
-export const createCamp = async (formData) => {
-  // const firstName = formData.get('title')
-  // const description = formData.get('description')
-  const rawData = Object.fromEntries(formData);
-  console.log(rawData);
-  // db.camp.create({})
-  // revalidatePath('/actions') // refresh Data
-  // redirect('/')
-};
-
-export const fetchCamp = async () => {
-  // db.camp.findMany({})
-  const user = [
-    { id: 1, title: "Route 3060" },
-    { id: 2, title: "Korat" },
-  ];
-
-  return user;
-};
-```
-
-# Step 7 https://react.dev/reference/react/useActionState
-
-```tsx
-const [state, formAction, isPending] = useActionState(fn, initialState, permalink?);
-```
-
-# https://react.dev/reference/react-dom/hooks/
-
-```tsx
-const { pending, data, method, action } = useFormStatus();
-```
-
-# Step 8 API
-```plaintext
-/api
-    /camp
-        /route.ts
-```
-```ts
-import { fetchCamp } from "@/utils/actions";
-import { NextResponse } from "next/server";
-
-export const GET = async (req: NextResponse) => {
-  const { searchParams } = new URL(req.url);
-  const id = searchParams.get("id");
-  console.log(id);
-
-  const camps = await fetchCamp();
-  //   return Response.json({ camps });
-  return NextResponse.redirect(new URL("/", req.url));
-};
-```
-
-# Step 9 Middleware
-```ts
-import { NextResponse } from "next/server";
-
-export function middleware(req: Request) {
-  console.log("hello middleware");
-  return NextResponse.redirect(new URL("/", req.url));
-}
-
-export const config = {
-  // matcher : '/counter'
-  matcher: ["/about/:path*", "/counter/:path*"],
-};
-```
-
-
-# Step 10 Type 
-- เมื่อไม่กำหนด type TypeScript จะมองว่า data เป็น any ซึ่งหมายความว่าไม่มีการตรวจสอบชนิดข้อมูลเลย
-- โค้ดอ่านง่ายขึ้น เพราะเห็นโครงสร้างข้อมูลชัดเจน
-- ลดข้อผิดพลาด เพราะ TypeScript ช่วยตรวจสอบและแนะนำการใช้งาน property
+# Visit the app
+http://localhost:3000

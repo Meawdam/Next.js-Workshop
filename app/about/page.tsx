@@ -4,9 +4,17 @@ const fetchTodos = async() => {
   const data = await res.json();
   return data;
 }
+
+type data = {
+  id: string;
+  completed: string;
+  title: string;
+  userId: string;
+}
+
 const AboutPage = async() => {
 
-  const data = await fetchTodos();
+  const data: data[] = await fetchTodos();
 
   return (
     <>

@@ -8,7 +8,7 @@ export const metadata:Metadata ={
   keywords: "Next.js, Workshop"
 }
 
-const layout = ({children}) => {
+const layout = ({children} : {children : React.ReactNode}) => {
   return (
     <html>
       <body>

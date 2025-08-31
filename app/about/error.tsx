@@ -1,5 +1,6 @@
 "use client"
-const error = () => {
+const error = ({error}:{error: Error}) => {
+  console.log(error);
   return (
     <div>Something went wrong</div>
   )
